@@ -77,7 +77,7 @@ def log_regression5(X, y, alpha, epochs): # Función que realiza la función log
                                           # maximas en las que se realizará el entrenamiento del modelo.
     
   y_ = np.reshape(y, (len(y), 1)) # Se cambia la forma del target (y) de tal manera que quede en forma de columna.
-  N = len(X)                      # Se calcula la cantidad de damples de los features para poder realizar el metodo de optimización 
+  N = len(X)                      # Se calcula la cantidad de samples de los features para poder realizar el metodo de optimización 
                                   # gradient descent.
                                   
   theta = np.random.randn(len(X[0]) + 1, 1) # Theta son los pesos de o w de la regresión logistica, no obstante al principio
@@ -111,11 +111,16 @@ def log_regression5(X, y, alpha, epochs): # Función que realiza la función log
     best_params = theta # Estos son los valores optimos de theta después de utilizar el gradient descent
 
     hyp = sigmoid_function(X_vect.dot(theta)) # Declaramos la función de hipotesis la cual se utilizará para la función de costo 
-    
+                                              # el cual representa el modelo que se utilizará para hacer predicciones, que en este 
+                                              # caso representa la regresión logística, también representa la relacion entre los
+                                              # datos de entrada (features) con los de salida (labels)
+   
     avg_loss = -np.sum(np.dot(y_.T, np.log(hyp) + np.dot((1-y_).T, np.log(1-hyp)))) / len(hyp) # Calculamos la perdida promedio de la 
                                                                                                # función de hipotesis utilizando la
                                                                                                # función de perdida logaritmica negativa
                                                                                                # (o negative log loss function en ingles)
+                                                                                               # Esta función calcula la discrepancia entre 
+                                                                                               # las predicciones del modelo y los valores reales o deseados
     
     if epoch == 0:
       avg_loss_list.append(avg_loss) # Hacemos explicito que en la primera iteración se guarde el valor de perdida promedio
@@ -139,8 +144,7 @@ def log_regression5(X, y, alpha, epochs): # Función que realiza la función log
   plt.ylabel('Costo')
   plt.show()
   
-  # Lo que regresa la función son los pesos de la función sigmoide, que representan las probabilidades de que salga un valor del target,
-  # lo cual resulta util en este caso debido a que el problema es de clasificación binaria.
+  # Lo que regresa la función son los pesos de la función sigmoide o dicho de otra manera, los parametros optimizados
   return best_params 
 
 df = pd.read_csv('framingham.csv') # Dataset extraido de https://www.kaggle.com/datasets/dileep070/heart-disease-prediction-using-logistic-regression
@@ -151,7 +155,7 @@ print(df) # Se imprime el data frame
 
 x = df.drop('TenYearCHD', axis=1) # De features escogemos todos menos el label.
 
-# Regresa 1 si no hay riesgo de fallo cardiaco (0 = no hay riesgo de fallo cardiaco en 10 años, 1 = si hay riesgo de fallo cardiaco 
+# Regresa 1 si no hay riesgo de fallo cardiaco en 10 años (0 = no hay riesgo de fallo cardiaco en 10 años, 1 = si hay riesgo de fallo cardiaco 
 # en 10 años) si si lo hay.
 y_0 = (df["TenYearCHD"] == 0).astype(int) 
 y_1 = (df['TenYearCHD'] == 1).astype(int)
@@ -242,7 +246,7 @@ print('la precision del modelo de prueba para predecir si alguien presentará un
 y_cardiac_type = {'Riesgo de fallo cardiaco en 10 años':y_1,        
                 'No hay riesgo de fallo cardiaco en 10 años':y_0}
 
-# Creamos un diccionario donde el key es el string, y la variable numerica es un float donde se van a almacenar las probabilidades de
+# Creamos un diccionario donde el key es el string, y la variable numerica es un float donde se van a almacenar la probabilidad de
 # que la afirmación sea verdadera.
 predicted_probs = {'Riesgo de fallo cardiaco en 10 años':0.0,
                 'No hay riesgo de fallo cardiaco en 10 años':0.0}
@@ -254,7 +258,7 @@ actual_y = {'Riesgo de fallo cardiaco en 10 años':0,
 
 for key, y_card_type in y_cardiac_type.items(): # Se hace un ciclo for para cada elemento del diccionario
 
-  # Dividimos el dataset de tal manera que el 20% de los sample sean de prueba y el 80% de entrenamiento
+  # Dividimos el dataset de tal manera que el 20% de los datos sean de prueba y el 80% de entrenamiento
   X_train, X_test, y_train, y_test = dividir_datos_y_target(x, y_card_type, tamaño_prueba=0.2, random_state=2)
 
   Escala = EscaladorDatos()
