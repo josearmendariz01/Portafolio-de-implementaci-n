@@ -31,7 +31,7 @@ def dividir_datos_y_target(X, y, tamaño_prueba=0.2, random_state=None):
     y_test = y[:test_size_index]
     y_train = y[test_size_index:]
     
-    return X_train, X_test, y_train, y_test # Me devuelve 4 variables, los datos de los features de entrenamiento y prueba, y los features de entrenamiento y prueba 
+    return X_train, X_test, y_train, y_test # Me devuelve 4 variables, los features de entrenamiento y prueba, y los labels de entrenamiento y prueba 
 
 class EscaladorDatos: # Lo hice en una clase para que sea mas sencillo llamar a la función y se utiliza para mejorar el performance del 
                       # modelo y acelerar la convergencia
