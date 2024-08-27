@@ -44,7 +44,7 @@ class EscaladorDatos: # Lo hice en una clase para que sea mas sencillo llamar a 
 
         X = np.array(X) # Se transforman los datos de X a un array en caso de que no lo sea
         
-        # Calcular la media y desviación estándar de cada columna (feature)
+        # Calcular la media y desviación estándar de cada feature
         self.media = np.mean(X, axis=0)
         self.stds = np.std(X, axis=0)
 
